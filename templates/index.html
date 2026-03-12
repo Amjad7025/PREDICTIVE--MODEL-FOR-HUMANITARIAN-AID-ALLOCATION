@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Humanitarian Aid Allocation Prediction</title>
+
+ 
+    <style>
+        .video-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: -1; 
+}
+
+.video-background video {
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+}
+
+
+        .container {
+    width: 440px;
+    margin: 80px auto;
+    background: #0000001a;
+    padding: 35px;
+    border-radius: 20px;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(0, 17, 250, 0.25);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+}
+
+
+        h2 {
+    text-align: center;
+    color: #ffffff;
+    font-size: 26px;
+    font-weight: 700;
+    margin-bottom: 22px;
+    text-shadow: 0px 0px 8px rgba(0, 217, 255, 0.8);
+}
+
+       label {
+    font-weight: 500;
+    color:  #ffffff;
+    font-size: 15px;
+    margin-top: 12px;
+    display: block;
+}
+
+
+        input, select {
+    width: 100%;
+    padding: 12px;
+    margin-top: 6px;
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 10px;
+    border: 1px solid rgba(0, 238, 255, 0.4);
+    color: rgb(0, 255, 242);
+    outline: none;
+    backdrop-filter: blur(4px);
+    font-size: 15px;
+}
+
+input:focus, select:focus {
+    border-color: #00eaff;
+    box-shadow: 0 0 8px rgba(0,255,255,0.7);
+}
+
+
+        .btn {
+    width: 100%;
+    padding: 12px;
+    margin-top: 18px;
+    background: linear-gradient(90deg, #00ffff, #00eaff);
+    color: rgb(0, 0, 0);
+    border: none;
+    font-size: 17px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0px 0px 10px rgba(0,150,255,0.7);
+}
+
+.btn:hover {
+    transform: scale(1.03);
+    box-shadow: 0px 0px 20px rgba(0,200,255,1);
+}
+
+        .result {
+    margin-top: 20px;
+    padding: 14px;
+    background: rgba(0,255,170,0.15);
+    color: #00ff55;
+    text-align: center;
+    border-radius: 10px;
+    border: 1px solid hwb(229 57% 16%);
+    font-weight: 600;
+    backdrop-filter: blur(5px);
+}
+
+    </style>
+
+</head>
+<div class="video-background">
+  <video autoplay muted loop>
+    <source src="/static/disaster.mp4" type="video/mp4">
+  </video>
+</div>
+
+
+<div class="container">
+    
+        <h2 class="text-center header-title">Humanitarian Aid Allocation Predictor</h2>
+        
+
+        <form action="/predict" method="POST">
+
+            <!-- Severity -->
+            
+                <label class="form-label">Severity Level</label>
+                <select class="form-select" name="severity" aria-placeholder="Enter Severity Level" required>
+                    <option value='low'>Low</option>
+                    <option value='normal'>Normal</option>
+                    <option value='medium'>Medium</option>
+                    <option value='high'>High</option>
+                    <option value='extream'>Extreme</option>
+                </select>
+           
+
+            <!-- Population -->
+          
+                <label class="form-label">Affected Population</label>
+                <input type="number" class="form-control" name="population_affected_rate" placeholder="Enter affected population" required>
+
+
+            <!-- Economic Loss -->
+          
+                <label class="form-label">Economic Loss (USD)</label>
+                <input type="number" class="form-control" name="economic_loss" placeholder="Enter estimated loss" required>
+      
+
+            <!-- Infrastructure damage -->
+          
+                <label class="form-label">Infrastructure Damage </label>
+                <input type="number" class="form-control" name="infrastructure_damage" placeholder="Enter Infrastructure damage" required>
+     
+
+            <!-- Disaster Type -->
+       
+                <label class="form-label">Disaster Type</label>
+                <select class="form-select" name="disaster_type">
+                    <option value='Cyclone'>Cyclone</option>
+                    <option value='Flood'>Flood</option>
+                    <option value='Earthquake'>Earthquake</option>
+                    <option value='Drought'>Drought</option>
+                    <option value='Landslide'>Landslide</option>
+                    <option value='volcano_erruption'>Volcano Erruption</option>
+                </select>
+     
+
+            <!-- Urgency -->
+    
+                <label class="form-label">Urgency Level</label>
+                <select class="form-select" name="urgency_level">
+                    <option value='Low'>Low</option>
+                    <option value="Medium">Medium</option>
+                    <option value='High'>High</option>
+                    <option value='Critical'>Critical</option>
+                </select>
+                
+            <!-- accessibility -->
+    
+                <label class="form-label">accessibility</label>
+                <select class="form-select" name='accessibility'>
+                    <option value='Difficult'>Difficult</option>
+                    <option value='Moderate'>Moderate</option>
+                    <option value='Easy'>Easy</option>
+                    <option value='Normal'>Normal</option>
+                </select>
+
+
+            <button type="submit" class="btn">Predict Aid Required</button>
+        </form>
+
+       {% if result %}
+    {% if "Aid not Required" in result %}
+        <div class="result" style="color: rgb(29, 238, 21);">
+            {{ result }}
+        </div>
+    {% else %}
+        <div class="result" style="color: #ee4e04;">
+            {{ result }}
+        </div>
+    {% endif %}
+{% endif %}
+
+
+   
+</div>
+
+</body>
+</html>
